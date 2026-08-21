@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Comments from "./comments";
 
-export default function Posts({posts, setPosts}) {
+export default function Posts({posts, setPosts, onLogOut}) {
 
     async function getPosts() {
         const token = localStorage.getItem("token");
@@ -24,6 +24,11 @@ export default function Posts({posts, setPosts}) {
             console.log("Posts from API:", result.allPosts);
 
             if(!response.ok) {
+                if (response.status === 401) {
+                    onLogOut();
+                    return;
+                }
+
                 console.log(result.msg)
                 return;
             }
@@ -159,12 +164,22 @@ export default function Posts({posts, setPosts}) {
             <ul>
             {
                 posts.map(post => (
-                    <li style={{display: "flex", flexDirection: "column", gap: "5px"}} key={post.id}>
-                        <ListItems
+                    <li style={{
+                        display: "flex", 
+                        flexDirection: "column", 
+                        gap: "5px",
+                        backgroundColor: "lightblue",
+                        padding: "1rem",
+                        margin: "1rem",
+                        borderRadius: "5px",
+                        maxWidth: "30dvw"
+                    }} key={post.id}>
+                    <ListItems
                          post={post}
                          onDelete={deletePost}
                          onTogglePublish={publishPost}
                          onUpdate={updatePost}
+                         onLogOut={onLogOut}
                          />
                     </li>
                 ))
@@ -175,7 +190,7 @@ export default function Posts({posts, setPosts}) {
 }
 
 
-function ListItems({post, onDelete, onTogglePublish, onUpdate}) {
+function ListItems({post, onDelete, onTogglePublish, onUpdate, onLogOut}) {
     const [isEditing, setIsEditing] = useState(false)
     const [showPostDetails, setShowPostDetails] = useState(false)
 
@@ -208,6 +223,10 @@ function ListItems({post, onDelete, onTogglePublish, onUpdate}) {
         const result = await response.json()
 
         if(!response.ok) {
+            if(response.status === 401) {
+                onLogOut()
+                return
+            }
             console.log(result.msg)
             return false;
         }

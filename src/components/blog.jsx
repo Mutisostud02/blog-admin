@@ -3,9 +3,19 @@ import Dashboard from "./dashboard"
 import Login from "./login"
 
 export default function Blog() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState("")
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        !!localStorage.getItem("token")
+    );
+    const [username, setUsername] = useState(
+    localStorage.getItem("username") || ""
+    );
 
+    function handleLogout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setIsLoggedIn(false);
+        setUsername("");
+    }
     function handleLogin(data) {
         setIsLoggedIn(true)
         setUsername(data.username)
@@ -15,5 +25,5 @@ export default function Blog() {
         return <Login login={isLoggedIn} onLogin={handleLogin}/>
     }
 
-    return <Dashboard username={username}/>
+    return <Dashboard username={username} onLogOut={handleLogout}/>
 }

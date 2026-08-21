@@ -26,9 +26,10 @@ export default function Login({onLogin}) {
                 return;
             }
 
-            onLogin(data)
-
             localStorage.setItem("token", result.token)
+            localStorage.setItem("username", data.username)
+
+            onLogin(data)
 
 
             console.log("Log-in Successful")
