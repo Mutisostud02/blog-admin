@@ -46,7 +46,7 @@ export default function Comments({comments, setComments}) {
             <ul>
             {comments.map(comment =>
             <>
-                <li className="comment-content" key={comment.id}>
+                <li style={{margin:"1rem 2rem 1rem 0.1rem"}} className="comment-content" key={comment.id}>
                     <div className="content-header">
                         <h5>Posted By:{" "}{comment.author.username}</h5>
                         <small style={{color: "blue", fontWeight:"300"}}>{

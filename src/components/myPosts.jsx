@@ -302,6 +302,7 @@ function ListItems({post, onDelete, onTogglePublish, onUpdate, onLogOut}) {
 
     return (
         <div>
+        {post.image_url && <img src={post.image_url} alt={post.title} />}
         <h3><a style={{cursor:"pointer", color:"blue"}} onClick={handleOnClick}>{post.title}</a></h3>
         {showPostDetails && 
         <>

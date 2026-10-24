@@ -1,5 +1,5 @@
 
-export default function CreatePost({CreatePost, setContent, setTitle, title, content}) {
+export default function CreatePost({CreatePost, setContent, setTitle, setImage, title, content}) {
     return (
         <form onSubmit={CreatePost}>
             <h2>Create Post</h2>
@@ -24,6 +24,16 @@ export default function CreatePost({CreatePost, setContent, setTitle, title, con
             required
             />
             <br/>
+
+            <label htmlFor="image">Upload Image</label>
+            <input 
+            id="image" 
+            name="image" 
+            type="file" 
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}                        
+            ></input>
+
 
             <button type="submit">Create Post</button>
         </form>

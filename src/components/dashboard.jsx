@@ -6,6 +6,7 @@ import Users from "./users";
 export default function Dashboard({ username, onLogOut }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
 
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -22,19 +23,22 @@ export default function Dashboard({ username, onLogOut }) {
       return;
     }
 
-    const data = {
-      title,
-      content,
-    };
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("content", content);
+
+    if (image) {
+      formData.append("image", image);
+    }
 
     try {
       const response = await fetch("http://localhost:3000/posts", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       const result = await response.json();
@@ -46,10 +50,11 @@ export default function Dashboard({ username, onLogOut }) {
 
       console.log("Post created", result);
 
-      setPosts((currentPosts) => [...currentPosts, data]);
+      setPosts((currentPosts) => [...currentPosts, result]);
 
       setTitle("");
       setContent("");
+      setImage(null);
     } catch (err) {
       console.error("Could not connect to server", err);
     }
@@ -113,18 +118,15 @@ export default function Dashboard({ username, onLogOut }) {
         return false;
       }
 
-      setUsers(currentUser => 
-        currentUser.filter(user => 
-            user.id !== userId
-        )
-      )
+      setUsers((currentUser) =>
+        currentUser.filter((user) => user.id !== userId),
+      );
 
       console.log("User deleted successfully");
 
       return true;
-
     } catch (err) {
-        console.error('Server error', err)
+      console.error("Server error", err);
     }
   }
   return (
@@ -159,6 +161,7 @@ export default function Dashboard({ username, onLogOut }) {
           CreatePost={createPost}
           setTitle={setTitle}
           setContent={setContent}
+          setImage={setImage}
           title={title}
           content={content}
         />
