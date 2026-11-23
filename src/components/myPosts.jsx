@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Comments from "./comments";
+import API_URL from "../config/api";
 
 export default function Posts({posts, setPosts, onLogOut}) {
 
@@ -12,7 +13,7 @@ export default function Posts({posts, setPosts, onLogOut}) {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/posts/admin", {
+            const response = await fetch(`${API_URL}/posts/admin`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`               
@@ -53,7 +54,7 @@ export default function Posts({posts, setPosts, onLogOut}) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/posts/${postId}`, {
+            const response = await fetch(`${API_URL}/posts/${postId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,7 +89,7 @@ export default function Posts({posts, setPosts, onLogOut}) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/posts/${postId}/published`, {
+            const response = await fetch(`${API_URL}/posts/${postId}/published`, {
                 method: "PATCH",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -128,7 +129,7 @@ export default function Posts({posts, setPosts, onLogOut}) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/posts/${postId}`, {
+            const response = await fetch(`${API_URL}/posts/${postId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -212,7 +213,7 @@ function ListItems({post, onDelete, onTogglePublish, onUpdate, onLogOut}) {
             return false
         }
 
-        const response = await fetch(`http://localhost:3000/posts/${postId}/comments/admin`, {
+        const response = await fetch(`${API_URL}/posts/${postId}/comments/admin`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

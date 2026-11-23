@@ -1,3 +1,5 @@
+import API_URL from "../config/api";
+
 export default function Login({onLogin}) {
     async function handleSubmit(e) {
         e.preventDefault()
@@ -11,7 +13,7 @@ export default function Login({onLogin}) {
         console.log(data)
 
         try {
-            const response = await fetch("http://localhost:3000/login", {
+            const response = await fetch(`${API_URL}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

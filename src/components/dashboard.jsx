@@ -2,6 +2,7 @@ import { useState } from "react";
 import CreatePost from "./createPost";
 import Posts from "./myPosts";
 import Users from "./users";
+import API_URL from "../config/api";
 
 export default function Dashboard({ username, onLogOut }) {
   const [title, setTitle] = useState("");
@@ -33,7 +34,7 @@ export default function Dashboard({ username, onLogOut }) {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/posts", {
+      const response = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +70,7 @@ export default function Dashboard({ username, onLogOut }) {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/users", {
+      const response = await fetch(`${API_URL}/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +105,7 @@ export default function Dashboard({ username, onLogOut }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${API_URL}/users/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
